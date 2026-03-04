@@ -1,0 +1,47 @@
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# ----------------------------
+# Django
+# ----------------------------
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+# Archivos de migración si no querés subirlos (opcional)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# ----------------------------
+# Entorno y secretos
+# ----------------------------
+.env
+*.env
+
+# ----------------------------
+# IDEs y editores
+# ----------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# ----------------------------
+# Sistema
+# ----------------------------
+.DS_Store
+Thumbs.db
+*.log
