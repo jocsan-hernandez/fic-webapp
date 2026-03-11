@@ -1,0 +1,82 @@
+body {
+    background-image: url("/static/IMG/fic_background.jpg");
+    background-size: 100% 95%;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+#formulario{
+    background-color: rgba(0,0,0,0.5); /* negro con 50% transparencia */
+    width: 60vh;
+    height: 50vh;
+    border-radius: 10px;
+
+    margin: 8% auto; /* centra horizontalmente */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+#Titulo{
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    color: whitesmoke;
+}
+
+#formulario h2{
+    color: whitesmoke;
+}
+
+form label{
+    display:block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-left: 5%;
+    color: white;
+}
+
+form input, form select {
+    width: 90%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 4%;
+}
+
+#registrar{
+    width: 20vh;
+    margin-left: 32%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+/* Responsividad mínima */
+@media screen and (max-width: 600px) {
+
+    #formulario{
+        width: 90%;
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    form input, form select {
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+
+    #registrar {
+        width: 40%;
+        margin-left: 20%;
+    }
+
+    #Titulo {
+        margin-left: 0;
+        text-align: center;
+    }
+}

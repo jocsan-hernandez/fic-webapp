@@ -1,0 +1,52 @@
+
+
+
+form label{
+    display:block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-left: 3%;
+}
+
+form input, form select {
+    width: 90%;        
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#registrar{
+    width: 20vh;
+    margin-left: 40%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#Titulo{
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+
+
+/* Responsividad mínima */
+@media screen and (max-width: 600px) {
+    form input, form select {
+        width: 95%;       /* ocupan más ancho en pantallas pequeñas */
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+
+    #registrar {
+        width: 40%;       /* botón más ancho y centrado relativo */
+        margin-left: 30%;
+    }
+
+    #Titulo {
+        margin-left: 5%;
+    }
+}

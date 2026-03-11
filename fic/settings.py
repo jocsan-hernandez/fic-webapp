@@ -62,6 +62,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'usuarios.backends.MongoBackend',
+    'django.contrib.auth.backends.ModelBackend'
+]
+
+SESSION_COOKIE_AGE= 60*60*2
+SESSION_SAVE_EVERY_REQUEST=True
 ROOT_URLCONF = 'fic.urls'
 
 TEMPLATES = [
