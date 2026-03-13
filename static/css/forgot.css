@@ -51,23 +51,40 @@ form input, form select {
 #registrar{
     width: 20vh;
     margin-left: 32%;
-    margin-top: 2%;
+    margin-top: 5%;
     margin-bottom: 2%;
 }
 
-#forgotten{
-    display: flex;           /* activa flexbox */
-    align-items: center;     /* alinea verticalmente */
-    gap: 10px;  
-}
-#forgotten h4{
-   color:whitesmoke;
-   margin-left: 10%;
+.codigo-container{
+    display:flex;
+    justify-content: center;
+    gap:10px;
+    margin: 20px 0;
 }
 
-.recuperacion{
+.codigo{
+    width:50px;
+    height:55px;
+    text-align: center;
+    font-size: 24px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#verificarCodigo{
+    width: 20vh;
+    margin-left: 32%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+#titulo2{
+    margin-left: 4%;
+}
+
+#parrafo2{
+    margin-left: 4%;
     color: whitesmoke;
-    text-decoration: underline;
 }
 
 /* Responsividad mínima */

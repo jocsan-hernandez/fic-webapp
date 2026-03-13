@@ -151,3 +151,15 @@ connect(
     host=env('MONGO_HOST'),
     port=env.int('MONGO_PORT'),
 )
+
+# ----------------------------
+# Correos automatizados
+# ----------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env("EMAIL_HOST")  
+EMAIL_PORT = env("EMAIL_PORT") 
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", True)
+EMAIL_HOST_USER = env("EMAIL_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+# Forzar un hostname válido para HELO
+EMAIL_HOSTNAME = "uth.hn"

@@ -1,7 +1,8 @@
 #Para manejar modelos de mongo
-from mongoengine import Document, StringField, EmailField
+from mongoengine import Document, StringField, EmailField, DateTimeField
 from django.contrib.auth.hashers import make_password, check_password
 from cryptography.fernet import Fernet
+from datetime import datetime, timedelta, timezone
 import os
 # Create your models here.
 fernetKey = os.environ.get("FERNET_KEY")
@@ -50,3 +51,21 @@ class User(Document):
     @property
     def is_anonymous(self):
         return False
+
+#Modelo para la recuperación de la cuenta
+class PasswordResetCode(Document):
+    correo= EmailField(required=True)
+    codigo= StringField(required=True)
+    createdAt= DateTimeField(default=lambda: datetime.now(timezone.utc))
+    meta={
+        "collection":"password_reset_codes",
+        "indexes": [
+            {"fields":["correo"]},
+            {"fields":["createdAt"], "expireAfterSeconds":600}
+        ]
+    }        
+
+    def checkCode(self, code):
+        if datetime.now(timezone.utc)-self.createdAt>timedelta(minutes=10):
+            return False
+        return check_password(code, self.codigo)
