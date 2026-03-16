@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from mongoengine.errors import NotUniqueError
 from django.http import JsonResponse
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm
 from .models import User, PasswordResetCode
 from .utils import generarCodigo
 from django.conf import settings
@@ -12,6 +12,7 @@ from django.contrib import messages
 
 #Registro de usuarios
 def register(request):
+    mensaje_error=None
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
 
@@ -46,7 +47,7 @@ def register(request):
 def loginView(request):
     mensaje_error = None
     if request.session.get("user_id"):
-        return redirect("index")
+        return redirect("viewProfile")
     
     if request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -65,7 +66,7 @@ def loginView(request):
                     # Tiempo de expiración de la sesión (opcional, ya lo definiste en settings)
                     request.session.set_expiry(60 * 60 * 2)  # 2 horas
 
-                    return redirect("index")
+                    return redirect("viewProfile")
                 else:
                     mensaje_error = "Correo o contraseña incorrectos"
             except User.DoesNotExist:
@@ -231,3 +232,66 @@ def restablecerPswd(request):
                 mensaje_error = "Usuario no encontrado"
 
     return render(request, "resetPassword.html", {"mensaje_error": mensaje_error})
+
+#Vista de entrada de usuario
+def viewProfile(request):
+    userId= request.session.get("user_id")
+    if not userId:
+        return redirect("login")
+    
+    user= User.objects(id=userId).first()
+
+    if not user:
+        return redirect("login")
+    
+    cuenta_last4=None
+
+    if user.cuentaBanco:
+        try:
+            cuenta= user.getCuentaBanco()
+            cuenta_last4= cuenta[-4:]
+        except:
+            cuenta_last4 = None
+
+
+    return render(request, "viewProfile.html", {"user":user, "cuenta_last4":cuenta_last4}) 
+
+#Modificacion de usuario
+def updateProfile(request):
+    mensaje_exito = None
+    userId = request.session.get("user_id")
+    if not userId:
+        return redirect("login")
+    
+    try:
+        user = User.objects.get(id=userId)
+    except User.DoesNotExist:
+        return redirect("login")
+    
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            user.nombreCompleto = form.cleaned_data["nombreCompleto"]
+            user.correo = form.cleaned_data["correo"]
+            user.telefono = form.cleaned_data["telefono"]
+            user.nombreBanco = form.cleaned_data.get("nombreBanco", '')
+            cuenta = form.cleaned_data.get("cuentaBanco", '')
+            user.identidad = form.cleaned_data["identidad"]    
+            if cuenta:
+                user.setCuentaBanco(cuenta)
+
+            user.save()
+            mensaje_exito = "Perfil actualizado correctamente"
+
+    else:
+        datosIniciales = {
+            'nombreCompleto': user.nombreCompleto,
+            'identidad': user.identidad,
+            'correo': user.correo,
+            'telefono': user.telefono,
+            'nombreBanco': user.nombreBanco,
+            'cuentaBanco': user.getCuentaBanco() if user.cuentaBanco else ''
+        }
+        form = UserUpdateForm(initial=datosIniciales)
+
+    return render(request, "updateProfile.html", {'form': form, "mensaje_exito": mensaje_exito})

@@ -59,3 +59,32 @@ class UserLoginForm(forms.Form):
         if not correo or not password:
             raise forms.ValidationError("Todos los campos son obligatorios")
         return cleaned_data
+    
+#Formulario para editar informacion
+class UserUpdateForm(forms.Form):
+    nombreCompleto= forms.CharField(max_length=200, label="Nombre completo")
+    
+    identidad= forms.CharField(max_length=20, label="No. identidad")
+
+    tipoUsuario = forms.ChoiceField(
+        choices=[
+            ("cliente", "Cliente"),
+            ("admin", "Administrador")
+        ], label="Tipo de Usuario"
+    )
+
+    correo= forms.EmailField(label="Correo electrónico")
+
+    cuentaBanco= forms.CharField(max_length=50, required=False, label="Cuenta de banco")
+
+    nombreBanco= forms.CharField(max_length=100, required=False, label="Nombre del banco")
+
+    telefono= forms.CharField(max_length=15, label="Número de télefono")
+
+    #Validaciones
+    def clean(self):
+        cleaned_data= super().clean()
+        telefono = cleaned_data.get("telefono")
+        if telefono and not telefono.isdigit():
+            self.add_error("telefono", "El teléfono debería tener sólo números.")
+        return cleaned_data    
