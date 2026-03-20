@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Sobre nosotros | FIC
+{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+{% load static %}
+
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <!-- Título -->
+    <div class="text-center mb-5">
+      <h1 class="fw-bold">FIC - Fondo de Inversión Centroamericano</h1>
+      <p class="text-muted">
+        Transformando capital con estrategia, transparencia y respaldo en activos reales.
+      </p>
+    </div>
+
+    <!-- ¿Qué es FIC? -->
+    <div class="row mb-5 align-items-center">
+      <div class="col-md-6">
+        <h3 class="fw-semibold mb-3">¿Qué es FIC?</h3>
+        <p class="text-muted">
+          El FIC (Fondo de Inversión Centroamericano) es una unidad de inversión estratégica utilizada en Honduras y la región,
+          diseñada para multiplicar el valor de los recursos financieros de familias, empresarios y emprendedores.
+        </p>
+        <p class="text-muted">
+          Opera bajo un modelo estructurado y transparente, con una rentabilidad objetivo anual entre 
+          <strong>12% y 14%</strong>, y una inversión mínima desde <strong>L 50,000</strong>.
+        </p>
+      </div>
+
+      <div class="col-md-6 text-center">
+        <img src="{% static 'IMG/ficAboutUs.jpg' %}" class="img-fluid rounded shadow-sm" alt="FIC inversión">
+      </div>
+    </div>
+
+    <!-- Filosofía -->
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <div class="p-4 bg-white shadow-sm rounded">
+          <h3 class="fw-semibold mb-3">Nuestra Filosofía</h3>
+          <p class="text-muted">
+            En FIC, cada lempira se invierte mediante un proceso técnico y transparente. Combinamos análisis financiero,
+            evaluación de riesgos y respaldo en activos reales para ofrecer una experiencia clara, ordenada y sostenible en el tiempo.
+          </p>
+          <p class="text-muted mb-0">
+            Creemos que el patrimonio de cada inversionista merece ser gestionado con responsabilidad y respeto, por lo que
+            priorizamos la seguridad del capital y la consistencia en los resultados.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beneficios / Propuesta -->
+    <div class="row g-4 mb-5">
+
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h5 class="fw-semibold">Rentabilidad Objetivo</h5>
+          <p class="text-muted mb-0">
+            Portafolio orientado a generar entre <strong>12% y 14% anual</strong>, con pagos trimestrales basados en el desempeño real.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h5 class="fw-semibold">Transparencia Total</h5>
+          <p class="text-muted mb-0">
+            Información clara, sin comisiones ocultas y con seguimiento continuo de cada inversión realizada.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h5 class="fw-semibold">Enfoque Regional</h5>
+          <p class="text-muted mb-0">
+            Diseñado para familias, empresarios y emprendedores de Centroamérica que buscan crecimiento sostenible.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Gestión del Portafolio -->
+    <div class="row mb-5">
+      <div class="col-md-12 text-center mb-4">
+        <h3 class="fw-semibold">Gestión Responsable del Portafolio</h3>
+        <p class="text-muted">
+          Aplicamos criterios técnicos rigurosos para proteger y hacer crecer su capital.
+        </p>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h5 class="fw-semibold mb-3">Selección de Activos</h5>
+          <p class="text-muted mb-0">
+            Evaluamos cada oportunidad considerando liquidez, valor de reposición, garantías físicas y potencial de valorización.
+            Solo los proyectos que cumplen nuestros estándares forman parte del portafolio FIC.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h5 class="fw-semibold mb-3">Monitoreo y Protección</h5>
+          <p class="text-muted mb-0">
+            Supervisamos constantemente el desempeño, cobranzas y riesgos. Ajustamos estrategias cuando es necesario para
+            priorizar la conservación del capital y la estabilidad de los pagos al inversionista.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cierre -->
+    <div class="text-center">
+      <p class="fw-semibold">
+        Si busca crecer su capital con orden, claridad y respaldo profesional, FIC es su aliado estratégico.
+      </p>
+    </div>
+
+    <div class="text-center mt-5">
+  <a href="#" class="btn px-5 py-3 fw-semibold boton">
+    Únete hoy
+  </a>
+</div>
+
+  </div>
+</section>
+{% endblock %}

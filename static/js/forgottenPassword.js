@@ -75,14 +75,40 @@ document.addEventListener("DOMContentLoaded", () => {
                             // Código correcto → redirigir a página de cambio de contraseña
                             window.location.href = "/usuarios/resetPassword/";
                         } else {
-                            alert("Código incorrecto o expirado");
+                                                // Crear un contenedor para el alert si no existe
+                    const form = document.querySelector("#formulario form");
+                    let alertContainer = document.createElement("div");
+                    form.prepend(alertContainer);
+                    alertContainer.innerHTML = "";
+                    const alertDiv = document.createElement("div");
+                    alertDiv.className = "alert alert-danger alert-dismissible fade show";
+                    alertDiv.role = "alert";
+                    alertDiv.innerHTML = `
+                        Codigo incorrecto o expirado.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+
+                    alertContainer.appendChild(alertDiv);
                         }
                     })
                     .catch(err => console.log("Error:", err));
                 });
 
             } else {
-                console.log("Correo no encontrado");
+                    // Crear un contenedor para el alert si no existe
+                    const form = document.querySelector("#formulario form");
+                    let alertContainer = document.createElement("div");
+                    form.prepend(alertContainer);
+                    alertContainer.innerHTML = "";
+                    const alertDiv = document.createElement("div");
+                    alertDiv.className = "alert alert-danger alert-dismissible fade show";
+                    alertDiv.role = "alert";
+                    alertDiv.innerHTML = `
+                        Correo no encontrado.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+
+                    alertContainer.appendChild(alertDiv);
             }
         })
         .catch(error => {

@@ -60,7 +60,7 @@ main{
           <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Sobre nosotros</a>
+          <a class="nav-link" href="{% url 'aboutUs' %}">Sobre nosotros</a>
         </li>
 
         {% if request.session.user_id %}

@@ -1,7 +1,88 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
 Inicio | FIC
 {% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 {% block content %}
+<div id="carouselWithControls" class="carousel slide pointer-event" data-bs-ride="carousel" bis_skin_checked="1">
+  <div class="carousel-inner" bis_skin_checked="1">
+    <div class="carousel-item active" bis_skin_checked="1">
+      <img src="{% static 'IMG/carrusel1.jpg' %}"  class="d-block w-100 caruselimg" alt="Slide 1">
+    </div>
+    <div class="carousel-item" bis_skin_checked="1">
+      <img src="{% static 'IMG/carrusel2.jpg' %}" class="d-block w-100 caruselimg" alt="Slide 2">
+    </div>
+    <div class="carousel-item" bis_skin_checked="1">
+      <img src="{% static 'IMG/carrusel3.jpg' %}" class="d-block w-100 caruselimg" alt="Slide 3">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselWithControls" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselWithControls" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a>
+</div>
 
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <!-- Título principal -->
+    <div class="text-center mb-5">
+      <h1 class="fw-bold">FIC: Transformando Capital</h1>
+      <p class="text-muted">
+        Una alternativa de inversión sólida, transparente y orientada a maximizar el rendimiento de tu capital.
+      </p>
+    </div>
+
+    <!-- Beneficios -->
+    <div class="row g-4">
+
+      <!-- Columna 1 -->
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h4 class="fw-semibold mb-3">Selección Superior de Oportunidades</h4>
+          <p class="text-muted mb-0">
+            Acceso a inversiones estratégicas en bienes raíces y activos empresariales cuidadosamente evaluados.
+            Cada oportunidad es seleccionada bajo criterios rigurosos para garantizar seguridad y crecimiento sostenido.
+          </p>
+        </div>
+      </div>
+
+      <!-- Columna 2 -->
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h4 class="fw-semibold mb-3">Expertise en Gestión Profesional</h4>
+          <p class="text-muted mb-2">
+            Administrado por CACDEH y respaldado por un comité de inversión especializado.
+          </p>
+          <p class="text-muted mb-0">
+            Proyección de rentabilidad anual entre <strong>12% y 14%</strong>, basada en una gestión eficiente y disciplinada del capital.
+          </p>
+        </div>
+      </div>
+
+      <!-- Columna 3 -->
+      <div class="col-md-4">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <h4 class="fw-semibold mb-3">Menor Costo, Mayor Rendimiento</h4>
+          <p class="text-muted mb-2">
+            Inversión accesible desde <strong>L 50,000</strong> con pagos trimestrales.
+          </p>
+          <p class="text-muted mb-0">
+            Total transparencia en cada operación, sin comisiones ocultas, garantizando confianza y claridad en todo momento.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</section>
 {% endblock %}
