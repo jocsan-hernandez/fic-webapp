@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from mongoengine.errors import NotUniqueError
 from django.http import JsonResponse
-from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm
-from .models import User, PasswordResetCode
+from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, JoinRequestForm
+from .models import User, PasswordResetCode, Request
 from .utils import generarCodigo
 from django.conf import settings
 from django.core.mail import get_connection, EmailMessage, EmailMultiAlternatives
@@ -295,3 +295,26 @@ def updateProfile(request):
         form = UserUpdateForm(initial=datosIniciales)
 
     return render(request, "updateProfile.html", {'form': form, "mensaje_exito": mensaje_exito})
+
+def joinNow(request):
+    mensaje_error=None
+    if request.method == "POST":
+        form = JoinRequestForm(request.POST)
+
+        if form.is_valid():
+            req = Request(
+                nombreCompleto=form.cleaned_data["nombreCompleto"],
+                telefono=form.cleaned_data["telefono"]
+            )
+
+
+            try:
+                req.save()
+                mensaje_error="Tu solicitud fue recibida, nuestro equipo se contactará contigo pronto."
+            except:
+                mensaje_error = "Error en el servidor, intenta de nuevo más tarde."
+
+    else:
+        form = JoinRequestForm()
+
+    return render(request, "joinNow.html", {"form": form, "mensaje_error":mensaje_error})

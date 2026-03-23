@@ -88,3 +88,15 @@ class UserUpdateForm(forms.Form):
         if telefono and not telefono.isdigit():
             self.add_error("telefono", "El teléfono debería tener sólo números.")
         return cleaned_data    
+    
+class JoinRequestForm(forms.Form):
+    nombreCompleto = forms.CharField(max_length=200, label="Nombre completo")
+
+    telefono = forms.CharField(max_length=15, label="Número de télefono")
+
+    def clean(self):
+        cleaned_data= super().clean()
+        telefono = cleaned_data.get("telefono")
+        if telefono and not telefono.isdigit():
+            self.add_error("telefono", "El teléfono debería tener sólo números.")
+        return cleaned_data    

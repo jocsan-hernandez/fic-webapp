@@ -69,3 +69,7 @@ class PasswordResetCode(Document):
         if datetime.now(timezone.utc)-self.createdAt>timedelta(minutes=10):
             return False
         return check_password(code, self.codigo)
+    
+class Request(Document):
+    telefono = StringField(required=True)
+    nombreCompleto= StringField(required=True)    
