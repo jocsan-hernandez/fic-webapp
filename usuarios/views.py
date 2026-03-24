@@ -65,8 +65,10 @@ def loginView(request):
 
                     # Tiempo de expiración de la sesión (opcional, ya lo definiste en settings)
                     request.session.set_expiry(60 * 60 * 2)  # 2 horas
-
-                    return redirect("viewProfile")
+                    if user.tipoUsuario=="admin":
+                        return redirect("admin")
+                    else:
+                        return redirect("viewProfile")
                 else:
                     mensaje_error = "Correo o contraseña incorrectos"
             except User.DoesNotExist:
@@ -318,3 +320,32 @@ def joinNow(request):
         form = JoinRequestForm()
 
     return render(request, "joinNow.html", {"form": form, "mensaje_error":mensaje_error})
+
+def adminProfile(request):
+    try:
+        if request.session['user_tipo']!="admin":
+            return redirect("login")
+    except:
+        return redirect("login")    
+    #Traremos todas las solicitudes
+    solicitudes = Request.objects()
+    return render(request, "adminProfile.html", {"solicitudes":solicitudes})
+
+#Endpoint para solicitudes
+def obtenerSolicitudes(request):
+    try:
+        if request.session['user_tipo'] != "admin":
+            return JsonResponse({"error": "No autorizado"}, status=403)
+    except:
+        return JsonResponse({"error": "No autenticado"}, status=401)
+
+    solicitudes = Request.objects()
+
+    data = []
+    for s in solicitudes:
+        data.append({
+            "nombreCompleto": s.nombreCompleto,
+            "telefono": s.telefono
+        })
+
+    return JsonResponse(data, safe=False)

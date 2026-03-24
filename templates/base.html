@@ -64,9 +64,15 @@ main{
         </li>
 
         {% if request.session.user_id %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'viewProfile' %}">Perfil</a>
-        </li>
+          {% if request.session.user_tipo == 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin' %}">Administrador</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'viewProfile' %}">Mi perfil</a>
+          </li>
+          {%endif%}
         {% endif %}
       </ul>
 

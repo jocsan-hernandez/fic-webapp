@@ -9,5 +9,7 @@ urlpatterns = [
     path("resetPassword/", restablecerPswd, name="resetPassword"),
     path("viewProfile/", viewProfile, name="viewProfile"),
     path("updateProfile/", updateProfile, name="updateProfile"),
-    path('joinNow/', joinNow, name='joinNow')
+    path('joinNow/', joinNow, name='joinNow'),
+    path('admin/', adminProfile, name='admin'),
+    path('obtenerSolicitudes', obtenerSolicitudes, name="obtenerSolicitudes")
 ]
