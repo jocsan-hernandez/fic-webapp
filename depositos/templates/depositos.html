@@ -1,7 +1,7 @@
 {% extends "base.html" %} 
 
 {% block title %} 
-Registro 
+Administrador 
 {% endblock %} 
 
 {% load static %} 
@@ -18,21 +18,33 @@ Registro
             <h4 class="text-center mb-4"> Acciones </h4> 
             <ul class="nav flex-column"> 
                 <li class="nav-item"> 
-                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{%url 'admin'%}"> 
+                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{% url 'admin' %}"> 
                         <span class="d-flex align-items-center gap-2"> 
-                            <!-- icono --> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16"> 
                                 <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 4.697v4.974A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.965.45l-.338-.207z"/> 
                                 <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"/> 
                             </svg> 
                             Solicitudes 
                         </span> 
-                        <!-- BADGE --> 
                         <span id="badge-solicitudes" class="badge bg-light text-dark"> 0 </span> 
                     </a> 
                 </li> 
+
                 <li class="nav-item"> 
-                    <a class="nav-link text-white active bg-secondary mb-2 d-flex align-items-center gap-2" href="{% url 'register' %}"> 
+                    <a class="nav-link text-white active bg-secondary rounded mb-2 d-flex align-items-center justify-content-between" href="#"> 
+                        <span class="d-flex align-items-center gap-2"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+                            </svg>
+                            Depósitos 
+                        </span> 
+                        <span id="badge-depositos" class="badge bg-light text-dark"> 0 </span> 
+                    </a> 
+                </li> 
+
+                <li class="nav-item"> 
+                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{% url 'register' %}"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16"> 
                             <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/> 
                             <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/> 
@@ -40,6 +52,7 @@ Registro
                         Registro 
                     </a> 
                 </li> 
+
                 <li class="nav-item"> 
                     <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="#"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-data-fill" viewBox="0 0 16 16"> 
@@ -49,6 +62,7 @@ Registro
                         Métricas 
                     </a> 
                 </li> 
+
                 <li class="nav-item"> 
                     <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="#"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16"> 
@@ -61,45 +75,53 @@ Registro
         </div> 
 
         <!-- CONTENIDO PRINCIPAL --> 
-        <div class="col-md-9 col-lg-10 bg-light">
+        <div class="col-md-9 col-lg-10 bg-light p-4"> 
+            <h2 class="mb-4"> Depósito de cliente </h2> 
 
-      <div id="form-container">
-        <div id="formulario">
+            <!-- Mensaje éxito/error AJAX -->
+            <div id="mensaje-deposito"></div>
 
-          {% if mensaje_error %}
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ mensaje_error }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-          </div>
-          {% endif %}
+               <div class="d-flex justify-content-center">
+    <form id="form-deposito" style="width: 95%; max-width: 120vh;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="identidad" class="form-label">Identidad del cliente</label>
+            <input type="text" class="form-control" id="identidad" name="identidad" required>
+        </div>
 
-          <h2 class="mb-4 d-flex align-items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
-              <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1z"/>
-              <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-            </svg>
-            Registro de usuarios
-          </h2>   
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de depósito</label>
+            <select class="form-select" id="tipo" name="tipo" required>
+                <option value="capitalInicial">Capital Inicial</option>
+                <option value="interes">Interés</option>
+                <option value="retiro">Retiro</option>
+            </select>
+        </div>
 
-          <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <div class="mb-3">
+            <label for="monto" class="form-label">Monto</label>
+            <input type="number" class="form-control" id="monto" name="monto" step="1" required>
+        </div>
 
-            <div class="d-flex justify-content-center mt-3 mb-4">
+                    <div class="d-flex justify-content-center mt-3 mb-4">
               <button type="submit" class="btn btn-primary">
-                Registrar
+                Depositar
               </button>
             </div>
-          </form>  
+    </form>
+</div>
+
+                <div id="mensaje-deposito" style="display:none;" class="mt-3"></div>
 
         </div>
-      </div>
-
     </div>
-    </div> 
 </div> 
 {% endblock %} 
 
 {% block extra_js %} 
 <script src="{% static 'js/getBadge.js' %}"></script> 
+
+<!-- JS para manejar el depósito vía AJAX -->
+<script src="{% static 'js/makeMovement.js' %}"></script>
+</script>
 {% endblock %}
