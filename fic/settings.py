@@ -163,3 +163,10 @@ EMAIL_HOST_USER = env("EMAIL_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 # Forzar un hostname válido para HELO
 EMAIL_HOSTNAME = "uth.hn"
+
+#Manejo de español
+LANGUAGE_CODE = 'es'
+TIME_ZONE = 'America/Tegucigalpa'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True

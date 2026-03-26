@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime, timezone
 from usuarios.models import User
 from depositos.models import Movimiento
 from .services import calcularTasaCliente
+from django.core.paginator import Paginator
 
 def depositos(request):
     return render(request, "depositos.html", {})
@@ -69,3 +70,24 @@ def tasaClienteEndPoint(request, identidad, periodo):
         return JsonResponse({"error": "Error interno del servidor"}, status=500)
 
     return JsonResponse(resultado)
+
+def listarMovimientos(request):
+    pagina = None
+    if not request.session.get("user_id"):
+        return redirect("login")
+    
+    user_id= request.session["user_id"]
+    user_tipo = request.session["user_tipo"]
+
+    if user_tipo == "admin":
+        movimientos= Movimiento.objects.order_by("-fecha_operacion", "-created_at")
+        pagina = "listarMovimientosAdmin.html"
+    else:
+        movimientos = Movimiento.objects(user=user_id).order_by("fecha_operacion", "-created_at")
+        pagina = "listarMovimientos.html"
+
+    paginator = Paginator(movimientos, 5)
+    page_number= request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, pagina, {"movimientos": page_obj})

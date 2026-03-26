@@ -2,6 +2,7 @@ from mongoengine import Document, ReferenceField, FloatField, StringField, DateF
 from datetime import datetime, timezone
 from usuarios.models import User
 
+
 class Movimiento(Document):
     user = ReferenceField(User, required=True)
     monto = FloatField(required=True)
