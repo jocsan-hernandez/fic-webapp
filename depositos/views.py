@@ -83,7 +83,7 @@ def listarMovimientos(request):
         movimientos= Movimiento.objects.order_by("-fecha_operacion", "-created_at")
         pagina = "listarMovimientosAdmin.html"
     else:
-        movimientos = Movimiento.objects(user=user_id).order_by("fecha_operacion", "-created_at")
+        movimientos = Movimiento.objects(user=user_id).order_by("-fecha_operacion", "-created_at")
         pagina = "listarMovimientos.html"
 
     paginator = Paginator(movimientos, 5)
