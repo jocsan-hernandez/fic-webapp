@@ -18,7 +18,7 @@ Administrador
             <h4 class="text-center mb-4"> Acciones </h4> 
             <ul class="nav flex-column"> 
                 <li class="nav-item"> 
-                    <a class="nav-link text-white active bg-secondary rounded mb-2 d-flex align-items-center justify-content-between" href="#"> 
+                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{%url 'admin'%}"> 
                         <span class="d-flex align-items-center gap-2"> 
                             <!-- icono --> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16"> 
@@ -68,7 +68,7 @@ Administrador
       </a>
       </li>
                 <li class="nav-item"> 
-                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{%url 'metricasAdmin'%}"> 
+                    <a class="nav-link text-white active bg-secondary" href="#"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-data-fill" viewBox="0 0 16 16"> 
                             <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/> 
                             <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1"/> 
@@ -88,26 +88,122 @@ Administrador
         </div> 
 
         <!-- CONTENIDO PRINCIPAL --> 
-        <div class="col-md-9 col-lg-10 bg-light p-4"> 
-            {% if mensaje_error %} 
-                <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
-                    {{ mensaje_error }} 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button> 
-                </div> 
-            {% endif %} 
+            <div class="col-md-9 col-lg-10 p-4">
 
-            <h2 class="mb-4"> Bienvenido, Admin </h2> 
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Métricas</h2>
+    </div>
 
-            <div class="row"> 
-                <div id="contenedor-solicitudes" class="row"> 
-                    <!-- JS va a insertar las cards aquí --> 
-                </div> 
-            </div> 
-        </div> 
+    <!-- TABS -->
+    <ul class="nav nav-tabs mb-4" id="dashboardTabs">
+        <li class="nav-item">
+            <button class="nav-link active" data-tab="usuarios">Usuarios</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-tab="movimientos">Movimientos</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-tab="mapa">Mapa</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-tab="reportes">Reportes</button>
+        </li>
+    </ul>
+
+    <!-- CONTENIDO DINÁMICO -->
+    <div id="tab-content">
+
+        <!-- USUARIOS -->
+        <div class="tab-pane active" id="usuarios">
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 p-3">
+                        <small class="text-muted">Total Usuarios</small>
+                        <h3 class="fw-bold">{{ total }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 p-3">
+                        <small class="text-muted">Clientes</small>
+                        <h3 class="fw-bold">{{ clientes }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 p-3">
+                        <small class="text-muted">Activos</small>
+                        <h3 class="fw-bold text-success">{{ activos }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 p-3">
+                        <small class="text-muted">Con Cuenta Registrada</small>
+                        <h3 class="fw-bold text-primary">{{ con_cuenta }}</h3>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SEGUNDA FILA -->
+            <div class="row mt-4 g-3">
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 p-3">
+                        <h6 class="mb-3">Actividad</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Activos</span>
+                            <strong class="text-success">{{ activos }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Inactivos</span>
+                            <strong class="text-danger">{{ inactivos }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 p-3">
+                        <h6 class="mb-3">Comportamiento</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Depositaron</span>
+                            <strong>{{ depositaron }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Retiraron</span>
+                            <strong>{{ retiraron }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PLACEHOLDERS -->
+        <div class="tab-pane d-none" id="movimientos">
+            <p class="text-muted">Aquí irá el análisis de movimientos (AJAX)</p>
+        </div>
+
+        <div class="tab-pane d-none" id="mapa">
+            <p class="text-muted">Aquí irá el mapa de Honduras</p>
+        </div>
+
+        <div class="tab-pane d-none" id="reportes">
+            <p class="text-muted">Aquí irán reportes avanzados</p>
+        </div>
+
+    </div>
+
+</div>
     </div> 
 </div> 
 {% endblock %} 
 
 {% block extra_js %} 
-<script src="{% static 'js/getRequests.js' %}"></script> 
+<script src="{% static 'js/getBadge.js' %}"></script> 
 {% endblock %}

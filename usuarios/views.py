@@ -9,7 +9,7 @@ from django.core.mail import get_connection, EmailMessage, EmailMultiAlternative
 import json
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
-
+from depositos.models import Movimiento
 #Registro de usuarios
 def register(request):
     mensaje_error=None
@@ -349,3 +349,78 @@ def obtenerSolicitudes(request):
         })
 
     return JsonResponse(data, safe=False)
+
+
+
+
+def metricasAdmin(request):
+
+    # Validación de sesión
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("login")
+
+    user = User.objects(id=user_id).first()
+
+    if not user or user.tipoUsuario != "admin":
+        return redirect("login")
+
+    # -----------------------------
+    # QUERYSETS BASE
+    # -----------------------------
+    clientes_qs = User.objects(tipoUsuario="cliente")
+    admins_qs = User.objects(tipoUsuario="admin")
+
+    # IMPORTANTE: solo IDs (optimizado)
+    clientes_ids = clientes_qs.scalar("id")
+
+    # -----------------------------
+    # MÉTRICAS GENERALES
+    # -----------------------------
+    total = User.objects.count()
+    clientes = clientes_qs.count()
+    admins = admins_qs.count()
+
+    # -----------------------------
+    # MÉTRICAS CLIENTES
+    # -----------------------------
+    con_cuenta = clientes_qs.filter(cuentaBanco__ne=None).count()
+    sin_cuenta = clientes_qs.filter(cuentaBanco=None).count()
+
+    # -----------------------------
+    # ACTIVIDAD (correcto para Mongo)
+    # -----------------------------
+    activos = len(Movimiento.objects(
+        user__in=clientes_ids
+    ).distinct("user"))
+
+    inactivos = clientes - activos
+
+    # -----------------------------
+    # COMPORTAMIENTO
+    # -----------------------------
+    depositaron = len(Movimiento.objects(
+        tipo="capitalInicial",
+        user__in=clientes_ids
+    ).distinct("user"))
+
+    retiraron = len(Movimiento.objects(
+        tipo="retiro",
+        user__in=clientes_ids
+    ).distinct("user"))
+
+
+    context = {
+        "total": total,
+        "clientes": clientes,
+        "admins": admins,
+        "con_cuenta": con_cuenta,
+        "sin_cuenta": sin_cuenta,
+        "activos": activos,
+        "inactivos": inactivos,
+        "depositaron": depositaron,
+        "retiraron": retiraron,
+    }
+
+    return render(request, "metricasAdmin.html", context)
