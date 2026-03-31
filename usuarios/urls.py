@@ -12,5 +12,6 @@ urlpatterns = [
     path('joinNow/', joinNow, name='joinNow'),
     path('admin/', adminProfile, name='admin'),
     path('obtenerSolicitudes', obtenerSolicitudes, name="obtenerSolicitudes"),
-    path('metricasAdmin/', metricasAdmin, name='metricasAdmin')
+    path('metricasAdmin/', metricasAdmin, name='metricasAdmin'),
+    path("metricasMovimientos/", metricasMovimientos, name="metricasMovimientos"),
 ]

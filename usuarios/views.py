@@ -10,6 +10,7 @@ import json
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from depositos.models import Movimiento
+from datetime import datetime, timedelta
 #Registro de usuarios
 def register(request):
     mensaje_error=None
@@ -424,3 +425,42 @@ def metricasAdmin(request):
     }
 
     return render(request, "metricasAdmin.html", context)
+
+
+def metricasMovimientos(request):
+
+    # Validación de sesión
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("login")
+
+    user = User.objects(id=user_id).first()
+
+    if not user or user.tipoUsuario != "admin":
+        return redirect("login")
+
+    meses = int(request.GET.get("meses", 1))
+
+    # calcular fecha límite
+    hoy = datetime.now().date()
+    fecha_inicio = hoy - timedelta(days=meses * 30)
+
+    # query base
+    movimientos = Movimiento.objects(
+        fecha_operacion__gte=fecha_inicio
+    )
+
+    # sumatorias
+    depositos = sum(m.monto for m in movimientos if m.tipo == "capitalInicial")
+    retiros = sum(m.monto for m in movimientos if m.tipo == "retiro")
+    intereses = sum(m.monto for m in movimientos if m.tipo == "interes")
+
+    total_depositos = depositos  # este es el KPI principal
+
+    return JsonResponse({
+        "total_depositos": total_depositos,
+        "depositos": depositos,
+        "retiros": retiros,
+        "intereses": intereses
+    })
