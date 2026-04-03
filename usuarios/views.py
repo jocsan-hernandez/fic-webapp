@@ -25,6 +25,7 @@ def register(request):
                 correo=form.cleaned_data["correo"],
                 nombreBanco=form.cleaned_data["nombreBanco"],
                 tipoUsuario=form.cleaned_data["tipoUsuario"],
+                departamento = form.cleaned_data["departamento"]
             )
 
             cuenta = form.cleaned_data.get("cuentaBanco")
@@ -35,7 +36,7 @@ def register(request):
 
             try:
                 user.save()
-                return redirect("/") 
+                return redirect("admin") 
             except NotUniqueError:
                 mensaje_error = "El correo o la identidad ya existen."
 
@@ -277,6 +278,7 @@ def updateProfile(request):
             user.nombreCompleto = form.cleaned_data["nombreCompleto"]
             user.correo = form.cleaned_data["correo"]
             user.telefono = form.cleaned_data["telefono"]
+            user.departamento = form.cleaned_data["departamento"]
             user.nombreBanco = form.cleaned_data.get("nombreBanco", '')
             cuenta = form.cleaned_data.get("cuentaBanco", '')
             user.identidad = form.cleaned_data["identidad"]    
@@ -293,7 +295,8 @@ def updateProfile(request):
             'correo': user.correo,
             'telefono': user.telefono,
             'nombreBanco': user.nombreBanco,
-            'cuentaBanco': user.getCuentaBanco() if user.cuentaBanco else ''
+            'cuentaBanco': user.getCuentaBanco() if user.cuentaBanco else '',
+            'departamento': user.departamento
         }
         form = UserUpdateForm(initial=datosIniciales)
 
@@ -464,3 +467,27 @@ def metricasMovimientos(request):
         "retiros": retiros,
         "intereses": intereses
     })
+
+
+def clientesPorDepartamento(request):
+
+    pipeline = [
+        {
+            "$match": {
+                "tipoUsuario": "cliente",
+                "departamento": {"$ne": None}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$departamento",
+                "total": {"$sum": 1}
+            }
+        }
+    ]
+
+    result = User.objects.aggregate(*pipeline)
+
+    data = {item["_id"]: item["total"] for item in result}
+
+    return JsonResponse(data)

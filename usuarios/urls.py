@@ -14,4 +14,5 @@ urlpatterns = [
     path('obtenerSolicitudes', obtenerSolicitudes, name="obtenerSolicitudes"),
     path('metricasAdmin/', metricasAdmin, name='metricasAdmin'),
     path("metricasMovimientos/", metricasMovimientos, name="metricasMovimientos"),
+    path("clientesPorDepartamento/", clientesPorDepartamento, name="clientesPorDepartamento"),
 ]

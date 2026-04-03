@@ -15,6 +15,29 @@ class UserRegisterForm(forms.Form):
 
     correo= forms.EmailField(label="Correo electrónico")
 
+    departamento = forms.ChoiceField(
+        choices=[
+            ("Atlántida", "Atlántida"),
+            ("Choluteca", "Choluteca"),
+            ("Colón", "Colón"),
+            ("Comayagua", "Comayagua"),
+            ("Copán", "Copán"),
+            ("Cortés", "Cortés"),
+            ("El Paraíso", "El Paraíso"),
+            ("Francisco Morazán", "Francisco Morazán"),
+            ("Gracias a Dios", "Gracias a Dios"),
+            ("Islas de la Bahía", "Islas de la Bahía"),
+            ("Intibucá", "Intibucá"),
+            ("Lempira", "Lempira"),
+            ("La Paz", "La Paz"),
+            ("Ocotepeque", "Ocotepeque"),
+            ("Olancho", "Olancho"),
+            ("Santa Bárbara", "Santa Bárbara"),
+            ("Valle", "Valle"),
+            ("Yoro", "Yoro"),
+        ]
+    )
+
     cuentaBanco= forms.CharField(max_length=50, required=False, label="Cuenta de banco")
 
     nombreBanco= forms.CharField(max_length=100, required=False, label="Nombre del banco")
@@ -80,6 +103,29 @@ class UserUpdateForm(forms.Form):
     nombreBanco= forms.CharField(max_length=100, required=False, label="Nombre del banco")
 
     telefono= forms.CharField(max_length=15, label="Número de télefono")
+
+    departamento = forms.ChoiceField(
+        choices=[
+            ("Atlántida", "Atlántida"),
+            ("Choluteca", "Choluteca"),
+            ("Colón", "Colón"),
+            ("Comayagua", "Comayagua"),
+            ("Copán", "Copán"),
+            ("Cortés", "Cortés"),
+            ("El Paraíso", "El Paraíso"),
+            ("Francisco Morazán", "Francisco Morazán"),
+            ("Gracias a Dios", "Gracias a Dios"),
+            ("Islas de la Bahía", "Islas de la Bahía"),
+            ("Intibucá", "Intibucá"),
+            ("Lempira", "Lempira"),
+            ("La Paz", "La Paz"),
+            ("Ocotepeque", "Ocotepeque"),
+            ("Olancho", "Olancho"),
+            ("Santa Bárbara", "Santa Bárbara"),
+            ("Valle", "Valle"),
+            ("Yoro", "Yoro"),
+        ]
+    )
 
     #Validaciones
     def clean(self):

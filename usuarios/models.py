@@ -9,6 +9,14 @@ fernetKey = os.environ.get("FERNET_KEY")
 cipher=Fernet(fernetKey)
 
 #modelo de usuario
+
+#Departamentos de Honduras
+departamentos = [
+    "Atlántida", "Choluteca", "Colón", "Comayagua", "Copán",
+    "Cortés", "El Paraíso", "Francisco Morazán", "Gracias a Dios",
+    "Islas de la Bahía", "Intibucá", "Lempira", "La Paz",
+    "Ocotepeque", "Olancho", "Santa Bárbara", "Valle", "Yoro"
+]
 class User(Document):
     nombreCompleto = StringField(required=True)
     identidad = StringField(required=True, unique=True)
@@ -18,6 +26,7 @@ class User(Document):
     cuentaBanco = StringField(required=False)
     nombreBanco = StringField(required=False)
     password = StringField(required=True)
+    departamento = StringField(required=False, choices=departamentos)
 
     meta = {"collection": "users"}
 
