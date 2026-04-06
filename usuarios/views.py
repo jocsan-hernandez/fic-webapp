@@ -14,6 +14,17 @@ from datetime import datetime, timedelta
 #Registro de usuarios
 def register(request):
     mensaje_error=None
+
+    # Validación de sesión
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("login")
+
+    user = User.objects(id=user_id).first()
+
+    if not user or user.tipoUsuario != "admin":
+        return redirect("login")
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
 
@@ -349,7 +360,8 @@ def obtenerSolicitudes(request):
     for s in solicitudes:
         data.append({
             "nombreCompleto": s.nombreCompleto,
-            "telefono": s.telefono
+            "telefono": s.telefono,
+            "id": str(s.id),
         })
 
     return JsonResponse(data, safe=False)
@@ -470,6 +482,11 @@ def metricasMovimientos(request):
 
 
 def clientesPorDepartamento(request):
+    try:
+        if request.session['user_tipo'] != "admin":
+            return JsonResponse({"error": "No autorizado"}, status=403)
+    except:
+        return JsonResponse({"error": "No autenticado"}, status=401)
 
     pipeline = [
         {
@@ -491,3 +508,37 @@ def clientesPorDepartamento(request):
     data = {item["_id"]: item["total"] for item in result}
 
     return JsonResponse(data)
+
+
+
+##Borrar solicitudes
+def deleteRequest(request, id):
+    try:
+        if request.session['user_tipo'] != "admin":
+            return JsonResponse({"error": "No autorizado"}, status=403)
+    except:
+        return JsonResponse({"error": "No autenticado"}, status=401)
+    
+    if request.method == "POST":
+        try:
+            solicitud = Request.objects.get(id=id)
+            solicitud.delete()
+
+            return JsonResponse({
+                "success": True,
+                "message": "Solicitud eliminada correctamente"
+            })
+
+        except Request.DoesNotExist:
+            return JsonResponse({
+                "success": False,
+                "error": "La solicitud no existe"
+            }, status=404)
+
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "error": str(e)
+            }, status=500)    
+    else:
+        return JsonResponse(status=405)    
