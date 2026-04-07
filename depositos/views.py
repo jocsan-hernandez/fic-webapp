@@ -47,26 +47,31 @@ def deposito_ajax(request):
 
     return JsonResponse({"success": False, "message": "Método no permitido."})
 
-def tasaClienteEndPoint(request, identidad, periodo):
-    """
-    Endpoint para consultar la tasa devengada de un cliente.
-    Solo acepta método GET.
-    Query params:
-        identidad: str (requerido)
-        periodo: str, uno de '1m', '3m', '6m', '1y' (requerido)
-    """
-    if request.method != "GET":
-        return JsonResponse({"error": "Método no permitido, use GET"}, status=405)
+def tasaClienteEndPoint(request, periodo):
 
-    if not identidad or not periodo:
-        return JsonResponse({"error": "Faltan parámetros 'identidad' o 'periodo'"}, status=400)
+    if request.method != "GET":
+        return JsonResponse({"error": "Método no permitido"}, status=405)
+
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return JsonResponse({"error": "No autenticado"}, status=401)
 
     try:
+        user = User.objects.get(id=user_id)
+
+        # Usamos la identidad real del usuario
+        identidad = user.identidad
+
         resultado = calcularTasaCliente(identidad, periodo)
+
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Usuario no encontrado"}, status=404)
+
     except ValueError as e:
         return JsonResponse({"error": str(e)}, status=400)
-    except Exception as e:
-        # Error genérico
+
+    except Exception:
         return JsonResponse({"error": "Error interno del servidor"}, status=500)
 
     return JsonResponse(resultado)
@@ -91,3 +96,6 @@ def listarMovimientos(request):
     page_obj = paginator.get_page(page_number)
     
     return render(request, pagina, {"movimientos": page_obj})
+
+def metricas(request):
+    return render(request, "metricas.html", {})    
