@@ -1,7 +1,7 @@
 {% extends "base.html" %} 
 
 {% block title %} 
-Administrador 
+Cambiar contraseña 
 {% endblock %} 
 
 {% load static %} 
@@ -18,7 +18,7 @@ Administrador
             <h4 class="text-center mb-4"> Acciones </h4> 
             <ul class="nav flex-column"> 
                 <li class="nav-item"> 
-                    <a class="nav-link text-white active bg-secondary rounded mb-2 d-flex align-items-center justify-content-between" href="#"> 
+                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="#"> 
                         <span class="d-flex align-items-center gap-2"> 
                             <!-- icono --> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16"> 
@@ -77,7 +77,7 @@ Administrador
                     </a> 
                 </li> 
                 <li class="nav-item"> 
-                    <a class="nav-link text-white mb-2 d-flex align-items-center gap-2" href="{%url 'cambioAdmin'%}"> 
+                    <a class="nav-link text-white active bg-secondary rounded mb-2 d-flex align-items-center gap-2" href="#"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16"> 
                             <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5"/> 
                         </svg> 
@@ -88,22 +88,30 @@ Administrador
         </div> 
 
         <!-- CONTENIDO PRINCIPAL --> 
-        <div class="col-md-9 col-lg-10 bg-light p-4"> 
-            {% if mensaje_error %} 
-                <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
-                    {{ mensaje_error }} 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button> 
-                </div> 
-            {% endif %} 
+         <div class="col">
+            <div id="formulario">
+                <h2 id="Titulo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+            </svg>
+                Nueva contraseña
+            </h2> 
+            <form method="POST">
+                {%csrf_token%}
+                <label for="pswd"> Nueva contraseña:</label>
+                <input type="password" name="pswd" id="pswd" required>
+                <label for="pswdConfirmar"> Confirmar contraseña:</label>
+                <input type="password" name="pswdConfirmar" id="pswdConfirmar" required>
 
-            <h2 class="mb-4"> Bienvenido, Admin </h2> 
+                <button type="submit" class="btn btn-primary" id="registrar"> Restablecer contraseña</button>
+            </form>    
 
-            <div class="row"> 
-                <div id="contenedor-solicitudes" class="row"> 
-                    <!-- JS va a insertar las cards aquí --> 
-                </div> 
-            </div> 
-        </div> 
+            </div>
+        </div>    
+
+
+
+
     </div> 
 </div> 
 
@@ -111,7 +119,7 @@ Administrador
 {% endblock %} 
 
 {% block extra_js %} 
-<script src="{% static 'js/getRequests.js' %}?v=2"></script> 
-<script src="{% static 'js/dashboardAdmin.js' %}"></script>
+<script src="{% static 'js/getBadge.js' %}?v=2"></script> 
+<script src="{% static 'js/passwordMatch.js' %}"></script>
 <script src="{% static 'js/getReminder.js' %}"></script> 
 {% endblock %}

@@ -542,3 +542,38 @@ def deleteRequest(request, id):
             }, status=500)    
     else:
         return JsonResponse(status=405)    
+
+
+def cambioAdmin(request):
+    mensaje_error=None
+    id = request.session.get('user_id')
+    user_tipo = request.session["user_tipo"]
+
+    if user_tipo == "admin":
+        pagina = "cambioAdmin.html"
+    else:
+        pagina = "cambio.html"
+    if not id:
+        return redirect("login")
+    if request.method == "POST":
+        pswd = request.POST.get("pswd", "").strip()
+        pswd_confirmar = request.POST.get("pswdConfirmar", "").strip()
+
+        if pswd != pswd_confirmar:
+            mensaje_error = "Las contraseñas no coinciden"
+        else:
+            user = User.objects(id=id).first()
+            if user:
+                user.setPassword(pswd) 
+                user.save()
+
+                # Limpiamos la sesión
+                request.session.flush()
+
+                messages.success(request, "Contraseña actualizada correctamente. Ya podés iniciar sesión.")
+                return redirect("login")
+
+            else:
+                mensaje_error = "Usuario no encontrado"
+
+    return render(request, pagina, {"mensaje_error": mensaje_error})        

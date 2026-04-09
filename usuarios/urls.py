@@ -16,4 +16,5 @@ urlpatterns = [
     path("metricasMovimientos/", metricasMovimientos, name="metricasMovimientos"),
     path("clientesPorDepartamento/", clientesPorDepartamento, name="clientesPorDepartamento"),
     path("delete/<str:id>/", deleteRequest, name="deleteRequest"),
+    path("cambioAdmin/", cambioAdmin, name="cambioAdmin")
 ]
